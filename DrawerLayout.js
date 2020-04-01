@@ -45,6 +45,7 @@ export type PropType = {
   edgeWidth: number,
   minSwipeDistance: number,
   hideStatusBar?: boolean,
+  hideOverlay?: boolean,
   statusBarAnimation?: 'slide' | 'none' | 'fade',
   overlayColor: string,
   drawerContainerStyle?: any,
@@ -80,6 +81,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
     minSwipeDistance: 3,
     overlayColor: 'rgba(0, 0, 0, 0.7)',
     drawerLockMode: 'unlocked',
+    hideOverlay: false,
   };
 
   static positions = {
@@ -375,6 +377,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
     const dynamicOverlayStyles = {
       opacity: overlayOpacity,
       backgroundColor: this.props.overlayColor,
+      display: this.props.hideOverlay ? 'none' : 'flex',
     };
 
     return (
