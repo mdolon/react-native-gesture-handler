@@ -399,6 +399,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
       drawerType,
       drawerContainerStyle,
       contentContainerStyle,
+      hideOverlay,
     } = this.props;
 
     const fromLeft = drawerPosition === 'left';
@@ -427,6 +428,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
       });
       containerStyles = {
         transform: [{ translateX: containerTranslateX }],
+        marginRight: containerSlide && hideOverlay ? containerTranslateX : 0,
       };
     }
 
