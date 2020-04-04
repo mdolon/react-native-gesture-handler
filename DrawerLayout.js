@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import invariant from 'invariant';
 import {
   Animated,
-  Dimensions,
   StyleSheet,
   View,
   Keyboard,
@@ -401,6 +400,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
       drawerContainerStyle,
       contentContainerStyle,
       hideOverlay,
+      useNativeAnimations,
     } = this.props;
 
     const fromLeft = drawerPosition === 'left';
@@ -428,9 +428,9 @@ export default class DrawerLayout extends Component<PropType, StateType> {
         extrapolate: 'clamp',
       });
 
-      if (containerSlide && hideOverlay) {
+      if (containerSlide && hideOverlay && !useNativeAnimations) {
         containerStyles = {
-          width: Dimensions.get('window').width - containerTranslateX,
+          marginLeft: containerTranslateX,
         };
       } else {
         containerStyles = {
@@ -495,6 +495,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
       drawerLockMode,
       edgeWidth,
       minSwipeDistance,
+      useNativeAnimations,
     } = this.props;
 
     const fromLeft = drawerPosition === 'left';
@@ -512,7 +513,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
       ? { left: 0, width: this._drawerShown ? undefined : edgeWidth }
       : { right: 0, width: this._drawerShown ? undefined : edgeWidth };
 
-    return (
+    const withGestures =
       <PanGestureHandler
         ref={this._setPanGestureRef}
         hitSlop={hitSlop}
@@ -524,8 +525,11 @@ export default class DrawerLayout extends Component<PropType, StateType> {
           drawerLockMode !== 'locked-closed' && drawerLockMode !== 'locked-open'
         }>
         {this._renderDrawer()}
-      </PanGestureHandler>
-    );
+      </PanGestureHandler>;
+
+    const withoutGestures = this._renderDrawer();
+
+    return useNativeAnimations ? withGestures : withoutGestures;
   }
 }
 
