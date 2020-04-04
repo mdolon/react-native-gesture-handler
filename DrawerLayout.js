@@ -12,6 +12,7 @@ import React, { Component } from 'react';
 import invariant from 'invariant';
 import {
   Animated,
+  Dimensions,
   StyleSheet,
   View,
   Keyboard,
@@ -429,7 +430,7 @@ export default class DrawerLayout extends Component<PropType, StateType> {
 
       if (containerSlide && hideOverlay) {
         containerStyles = {
-          marginLeft: containerTranslateX,
+          width: Dimensions.get('window').width - containerTranslateX,
         };
       } else {
         containerStyles = {
