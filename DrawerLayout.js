@@ -426,10 +426,16 @@ export default class DrawerLayout extends Component<PropType, StateType> {
         outputRange: fromLeft ? [0, drawerWidth] : [0, -drawerWidth],
         extrapolate: 'clamp',
       });
-      containerStyles = {
-        transform: [{ translateX: containerTranslateX }],
-        marginRight: containerSlide && hideOverlay ? containerTranslateX : 0,
-      };
+
+      if (containerSlide && hideOverlay) {
+        containerStyles = {
+          marginLeft: containerTranslateX,
+        };
+      } else {
+        containerStyles = {
+          transform: [{ translateX: containerTranslateX }],
+        };
+      }
     }
 
     let drawerTranslateX = 0;
